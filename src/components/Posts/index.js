@@ -9,6 +9,7 @@ class Posts extends Component {
     this.state = {
       posts: [],
       loading: false,
+      search: "",
     };
   }
   async getLoading() {
@@ -30,13 +31,26 @@ class Posts extends Component {
     const { posts } = this.state;
     return (
       <div>
+        <input
+          onChange={(e) =>
+            this.setState({ search: e.target.value.toLowerCase() })
+          }
+          placeholder="Search"
+          type="text"
+          name=""
+          id=""
+        />
         <h1>{this.props.title}</h1>
         <ul>
-          {posts.map((post) => (
-            <li key={post.id}>
-              <Link to={`/posts/${post.id}`}>{post.name}</Link>
-            </li>
-          ))}
+          {posts
+            .filter((post) =>
+              post.name.toLowerCase().includes(this.state.search)
+            )
+            .map((post) => (
+              <li key={post.id}>
+                <Link to={`/posts/${post.id}`}>{post.name}</Link>
+              </li>
+            ))}
         </ul>
       </div>
     );
